@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/grauurbanizacaodissolve_1.js"></script>
+        <script src="data/LimitesEstaduais_3.js"></script>
+        <script src="data/Universidade_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:17, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 1,
+            maxZoom: 17,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_grauurbanizacaodissolve_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['objectid'] !== null ? autolinker.link(feature.properties['objectid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['baserururb'] !== null ? autolinker.link(feature.properties['baserururb'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['baseruru_1'] !== null ? autolinker.link(feature.properties['baseruru_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['baseruru_2'] !== null ? autolinker.link(feature.properties['baseruru_2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pop_urb_un'] !== null ? autolinker.link(feature.properties['pop_urb_un'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pop_rur_un'] !== null ? autolinker.link(feature.properties['pop_rur_un'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pop_tot_un'] !== null ? autolinker.link(feature.properties['pop_tot_un'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['perc_urb_u'] !== null ? autolinker.link(feature.properties['perc_urb_u'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['classes_pe'] !== null ? autolinker.link(feature.properties['classes_pe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape_leng'] !== null ? autolinker.link(feature.properties['shape_leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape_area'] !== null ? autolinker.link(feature.properties['shape_area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_grauurbanizacaodissolve_1_0(feature) {
+            switch(String(feature.properties['classes_pe'])) {
+                case 'Unidade populacional com alto grau de urbanizacao':
+                    return {
+                pane: 'pane_grauurbanizacaodissolve_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,53,33,0.7859999999999999)',
+                interactive: true,
+            }
+                    break;
+                case 'Unidade populacional com moderado grau de urbanizacao':
+                    return {
+                pane: 'pane_grauurbanizacaodissolve_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,173,92,0.7859999999999999)',
+                interactive: true,
+            }
+                    break;
+                case 'Unidade populacional com baixo grau de urbanizacao':
+                    return {
+                pane: 'pane_grauurbanizacaodissolve_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(96,185,10,0.7859999999999999)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_grauurbanizacaodissolve_1');
+        map.getPane('pane_grauurbanizacaodissolve_1').style.zIndex = 401;
+        map.getPane('pane_grauurbanizacaodissolve_1').style['mix-blend-mode'] = 'normal';
+        var layer_grauurbanizacaodissolve_1 = new L.geoJson(json_grauurbanizacaodissolve_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_grauurbanizacaodissolve_1',
+            layerName: 'layer_grauurbanizacaodissolve_1',
+            pane: 'pane_grauurbanizacaodissolve_1',
+            onEachFeature: pop_grauurbanizacaodissolve_1,
+            style: style_grauurbanizacaodissolve_1_0,
+        });
+        bounds_group.addLayer(layer_grauurbanizacaodissolve_1);
+        var img_koppen_raster3000_2 = 'data/koppen_raster3000_2.png';
+        var img_bounds_koppen_raster3000_2 = [[-33.751813855,-73.99144079],[5.271674145,-34.79374079]];
+        var layer_koppen_raster3000_2 = new L.imageOverlay(img_koppen_raster3000_2, img_bounds_koppen_raster3000_2);
+        bounds_group.addLayer(layer_koppen_raster3000_2);
+        map.addLayer(layer_koppen_raster3000_2);
+        function pop_LimitesEstaduais_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['uf'] !== null ? autolinker.link(feature.properties['uf'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nome'] !== null ? autolinker.link(feature.properties['nome'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LimitesEstaduais_3_0() {
+            return {
+                pane: 'pane_LimitesEstaduais_3',
+                opacity: 1,
+                color: 'rgba(153,153,153,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_LimitesEstaduais_3');
+        map.getPane('pane_LimitesEstaduais_3').style.zIndex = 403;
+        map.getPane('pane_LimitesEstaduais_3').style['mix-blend-mode'] = 'normal';
+        var layer_LimitesEstaduais_3 = new L.geoJson(json_LimitesEstaduais_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LimitesEstaduais_3',
+            layerName: 'layer_LimitesEstaduais_3',
+            pane: 'pane_LimitesEstaduais_3',
+            onEachFeature: pop_LimitesEstaduais_3,
+            style: style_LimitesEstaduais_3_0,
+        });
+        bounds_group.addLayer(layer_LimitesEstaduais_3);
+        map.addLayer(layer_LimitesEstaduais_3);
+        function pop_Universidade_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">SIGLA</th>\
+                        <td>' + (feature.properties['SIGLA'] !== null ? autolinker.link(feature.properties['SIGLA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">UNIVERSIDADE</th>\
+                        <td>' + (feature.properties['UNIVERSIDADE'] !== null ? autolinker.link(feature.properties['UNIVERSIDADE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LAT</th>\
+                        <td>' + (feature.properties['LAT'] !== null ? autolinker.link(feature.properties['LAT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LONG</th>\
+                        <td>' + (feature.properties['LONG'] !== null ? autolinker.link(feature.properties['LONG'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">REGIAO_BR</th>\
+                        <td>' + (feature.properties['REGIAO_BR'] !== null ? autolinker.link(feature.properties['REGIAO_BR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ESTADO</th>\
+                        <td>' + (feature.properties['ESTADO'] !== null ? autolinker.link(feature.properties['ESTADO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CIDADE</th>\
+                        <td>' + (feature.properties['CIDADE'] !== null ? autolinker.link(feature.properties['CIDADE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Universidade_4_0() {
+            return {
+                pane: 'pane_Universidade_4',
+                radius: 4.8,
+                stroke: false,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(35,35,35,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Universidade_4');
+        map.getPane('pane_Universidade_4').style.zIndex = 404;
+        map.getPane('pane_Universidade_4').style['mix-blend-mode'] = 'normal';
+        var layer_Universidade_4 = new L.geoJson(json_Universidade_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Universidade_4',
+            layerName: 'layer_Universidade_4',
+            pane: 'pane_Universidade_4',
+            onEachFeature: pop_Universidade_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Universidade_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Universidade_4);
+        map.addLayer(layer_Universidade_4);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Universidade_4.png" /> Universidade': layer_Universidade_4,'<img src="legend/LimitesEstaduais_3.png" /> Limites Estaduais': layer_LimitesEstaduais_3,"koppen_raster3000": layer_koppen_raster3000_2,'grau-urbanizacao-dissolve<br /><table><tr><td style="text-align: center;"><img src="legend/grauurbanizacaodissolve_1_Unidadepopulacionalcomaltograudeurbanizacao0.png" /></td><td>Unidade populacional com alto grau de urbanizacao</td></tr><tr><td style="text-align: center;"><img src="legend/grauurbanizacaodissolve_1_Unidadepopulacionalcommoderadograudeurbanizacao1.png" /></td><td>Unidade populacional com moderado grau de urbanizacao</td></tr><tr><td style="text-align: center;"><img src="legend/grauurbanizacaodissolve_1_Unidadepopulacionalcombaixograudeurbanizacao2.png" /></td><td>Unidade populacional com baixo grau de urbanizacao</td></tr></table>': layer_grauurbanizacaodissolve_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_Universidade_4.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['SIGLA'] !== null?String('<div style="color: #232323; font-size: 10pt; font-family: \'Ubuntu\', sans-serif;">' + layer.feature.properties['SIGLA']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Universidade_4'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        resetLabels([layer_Universidade_4]);
+        map.on("zoomend", function(){
+            resetLabels([layer_Universidade_4]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_Universidade_4]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_Universidade_4]);
+        });
+        </script>
+    </body>
+</html>
